@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import SelectGeneration from "./components/SelectGeneration";
+import Generation1 from "./components/Generations/Generation1";
+import Generation2 from "./components/Generations/Generation2";
+import Generation3 from "./components/Generations/Generation3";
+import Generation4 from "./components/Generations/Generation4";
+import NotFound from "./components/Notfound";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Header from "./components/Header";
+import styled from "styled-components";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <SelectGeneration />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/G1",
+    element: <Generation1 />,
+  },
+  {
+    path: "/G2",
+    element: <Generation2 />,
+  },
+  {
+    path: "/G3",
+    element: <Generation3 />,
+  },
+  {
+    path: "/G4",
+    element: <Generation4 />,
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Screen>
+      <Header />
+      <RouterProvider router={router} />
+    </Screen>
+  );
 }
 
-export default App
+export default App;
+
+const Screen = styled.div`
+  width: 100vw;
+  height: 100vh;
+  // background-color: black;
+  display: flex;
+  flex-direction: column;
+`;
