@@ -71,7 +71,7 @@ const Navbar = styled.div`
 `;
 
 const NavTitle = styled.p`
-  font-family: "pokemonwrite";
+  font-family: "maple";
   font-size: 15px;
   // font-color: black;
   margin-right: 25px;

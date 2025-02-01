@@ -55,7 +55,7 @@ const SelectGeneration = () => {
 export default SelectGeneration;
 
 const Map = styled.div`
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-flow: wrap;
 `;
@@ -71,7 +71,10 @@ const EachMap = styled.div`
   //   border: 1px solid black;
 `;
 
-const MapTitle = styled.h3``;
+const MapTitle = styled.h3`
+  font-family: "maple";
+  font-size: 20px;
+`;
 
 const MapImage = styled.img`
   width: 100%;
