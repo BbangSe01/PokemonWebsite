@@ -4,11 +4,11 @@ import monsterball from "../../assets/Images/MonsterballIcon.png";
 import "../../styles/font.css";
 import typeIcons from "../../assets/Images/typeIcons";
 import "../../styles/type.css";
-const PokeCard = ({ G1Array, Names }) => {
+const PokeCard = ({ GArray, Names }) => {
   return (
     <>
-      {G1Array && Names
-        ? G1Array.map((Info, idx) => {
+      {GArray && Names
+        ? GArray.map((Info, idx) => {
             return (
               <CardArea>
                 <Intro>
