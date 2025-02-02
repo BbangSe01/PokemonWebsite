@@ -47,8 +47,6 @@ const TitleLine = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 10%;
-  // background-color: black;
 `;
 const Title = styled.h2`
   font-family: "pokemonwrite";
