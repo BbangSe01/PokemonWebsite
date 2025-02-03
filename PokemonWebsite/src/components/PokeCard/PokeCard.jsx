@@ -46,6 +46,11 @@ const CardArea = styled.div`
   height: 300px;
   border: 1px solid black;
   border-radius: 30px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1, 1.1);
+    transition: 0.3s;
+  }
 `;
 
 const PokeImg = styled.img`
