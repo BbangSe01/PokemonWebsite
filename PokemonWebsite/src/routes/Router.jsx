@@ -8,7 +8,7 @@ import NotFound from "../components/Notfound";
 import Temp1 from "../components/Temporary1";
 import Temp2 from "../components/Temporary2";
 import Header from "../components/Header";
-
+import DetailPage from "../components/DetailPage/DetailPage";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +27,7 @@ const Router = createBrowserRouter([
       { path: "/Temp1", element: <Temp1 /> },
       { path: "/Temp2", element: <Temp2 /> },
       { path: "*", element: <NotFound /> },
+      { path: "/DetailPage", element: <DetailPage /> },
     ],
   },
 ]);

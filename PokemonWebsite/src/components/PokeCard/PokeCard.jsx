@@ -4,13 +4,21 @@ import monsterball from "../../assets/Images/MonsterballIcon.png";
 import "../../styles/font.css";
 import typeIcons from "../../assets/Images/typeIcons";
 import "../../styles/type.css";
+import { useNavigate } from "react-router-dom";
 const PokeCard = ({ GArray, Names }) => {
+  const navigate = useNavigate();
+
+  const MoveDetail = (data) => {
+    navigate("/DetailPage", {
+      state: { data },
+    });
+  };
   return (
     <>
       {GArray && Names
         ? GArray.map((Info, idx) => {
             return (
-              <CardArea>
+              <CardArea onClick={() => MoveDetail(Info)}>
                 <Intro>
                   <Monsterball src={monsterball} />
                   <Numbers>NO.{Info.id} </Numbers>
