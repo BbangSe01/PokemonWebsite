@@ -9,7 +9,7 @@ import Generation1 from "../components/Generations/Generation1";
 import MonsterballIcon from "../assets/Images/MonsterballIcon.png";
 const SelectGeneration = () => {
   //next
-  // 관동지방부터 클릭 시 페이지 이동 및 151번까지 데이터 받아오고 처리하기
+
   return (
     <Map>
       <EachMap>
