@@ -36,10 +36,13 @@ const DetailPage = () => {
   return (
     <DetailArea>
       {DetailData && species ? (
-        <Left>
-          <PokeIntro DetailData={DetailData} species={species} />
-          <DoubleImg DetailData={DetailData} />
-        </Left>
+        <>
+          <Left>
+            <PokeIntro DetailData={DetailData} species={species} />
+            <DoubleImg DetailData={DetailData} />
+          </Left>
+          <Right></Right>
+        </>
       ) : null}
     </DetailArea>
   );
@@ -63,4 +66,13 @@ const Left = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const Right = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  //   background-color: white;
 `;
