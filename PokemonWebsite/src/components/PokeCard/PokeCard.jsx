@@ -18,7 +18,7 @@ const PokeCard = ({ GArray, Names }) => {
       {GArray && Names
         ? GArray.map((Info, idx) => {
             return (
-              <CardArea onClick={() => MoveDetail(Info)}>
+              <CardArea key={Info.id} onClick={() => MoveDetail(Info)}>
                 <Intro>
                   <Monsterball src={monsterball} />
                   <Numbers>NO.{Info.id} </Numbers>
