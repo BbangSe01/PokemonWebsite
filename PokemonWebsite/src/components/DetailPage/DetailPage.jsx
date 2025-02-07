@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../../apis/axios-instance";
+import StatBox from "./Right/StatBox";
 import PokeIntro from "./Left/PokeIntro";
 import DoubleImg from "./Left/DoubleImg";
 import "../../styles/font.css";
@@ -12,6 +13,8 @@ const DetailPage = () => {
 
   const [species, setSpecies] = useState(null);
   const [DetailData, setDetailData] = useState(null);
+  const [explaination, setEx] = useState(null);
+  const [stats, setStats] = useState(null);
 
   const getSpecies = async () => {
     try {
@@ -29,19 +32,43 @@ const DetailPage = () => {
   console.log(DetailData);
 
   useEffect(() => {
-    getSpecies();
+    if (DetailData) {
+      getSpecies();
+      setStats(DetailData.data.stats);
+    }
   }, [DetailData]);
-  console.log(species);
-  // 특성(숨특) , 울음소리 , 키/무게 , 이름, 타입, 이미지, 도감 설명명
+  // console.log(species);
+  // console.log(stats);
+
+  useEffect(() => {
+    if (species) {
+      const koreanEntries = species.flavor_text_entries.filter(
+        (entry) => entry.language.name === "ko"
+      );
+      setEx(koreanEntries[5].flavor_text);
+    }
+  }, [species]);
+
+  // 키/무게 , 도감 설명, 종족값, 울음소리
   return (
     <DetailArea>
-      {DetailData && species ? (
+      {DetailData && species && explaination && stats ? (
         <>
           <Left>
             <PokeIntro DetailData={DetailData} species={species} />
             <DoubleImg DetailData={DetailData} />
           </Left>
-          <Right></Right>
+          <Right>
+            <TAndW>
+              <Tall>키: {DetailData.data.height / 10}m</Tall>
+              <Weight>몸무게 : {DetailData.data.weight / 10}kg</Weight>
+            </TAndW>
+            <Explanation>{explaination}</Explanation>
+            <StatBox stats={stats} />
+            <audio controls>
+              <source src={DetailData.data.cries.latest} type="audio/ogg" />
+            </audio>
+          </Right>
         </>
       ) : null}
     </DetailArea>
@@ -76,3 +103,21 @@ const Right = styled.div`
   justify-content: center;
   //   background-color: white;
 `;
+
+const TAndW = styled.div`
+  display: flex;
+`;
+
+const Tall = styled.p``;
+
+const Weight = styled.p``;
+
+const Explanation = styled.div``;
+
+const AudioBox = styled.div`
+  background-color: white;
+  width: 100px;
+  height: 100px;
+`;
+
+const AudioButton = styled.audio``;
