@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../../apis/axios-instance";
-import StatBox from "./Right/StatBox";
-import PokeIntro from "./Left/PokeIntro";
-import DoubleImg from "./Left/DoubleImg";
 import "../../styles/font.css";
 import pokeBackground from "../../assets/Images/pokeBackground.jpg";
+import PokeIntro from "./Left/PokeIntro";
+import DoubleImg from "./Left/DoubleImg";
+import TallAndWeight from "./Right/TallAndWeight";
+import Explain from "./Right/Explain";
+import StatBox from "./Right/StatBox";
+import CryingSound from "./Right/CryingSound";
 const DetailPage = () => {
   const location = useLocation();
   const Lodata = location.state;
@@ -29,7 +32,7 @@ const DetailPage = () => {
   useEffect(() => {
     setDetailData(Lodata);
   }, []);
-  console.log(DetailData);
+  // console.log(Lodata);
 
   useEffect(() => {
     if (DetailData) {
@@ -37,18 +40,19 @@ const DetailPage = () => {
       setStats(DetailData.data.stats);
     }
   }, [DetailData]);
-  // console.log(species);
+  console.log(species);
   // console.log(stats);
 
   useEffect(() => {
-    if (species) {
+    if (species && species.flavor_text_entries) {
       const koreanEntries = species.flavor_text_entries.filter(
         (entry) => entry.language.name === "ko"
       );
-      setEx(koreanEntries[5].flavor_text);
+      setEx(koreanEntries[0].flavor_text);
     }
   }, [species]);
 
+  console.log(explaination);
   // 키/무게 , 도감 설명, 종족값, 울음소리
   return (
     <DetailArea>
@@ -59,15 +63,12 @@ const DetailPage = () => {
             <DoubleImg DetailData={DetailData} />
           </Left>
           <Right>
-            <TAndW>
-              <Tall>키: {DetailData.data.height / 10}m</Tall>
-              <Weight>몸무게 : {DetailData.data.weight / 10}kg</Weight>
-            </TAndW>
-            <Explanation>{explaination}</Explanation>
-            <StatBox stats={stats} />
-            <audio controls>
-              <source src={DetailData.data.cries.latest} type="audio/ogg" />
-            </audio>
+            <RightContents>
+              <TallAndWeight DetailData={DetailData} />
+              <Explain explaination={explaination} />
+              <StatBox stats={stats} />
+              <CryingSound DetailData={DetailData} />
+            </RightContents>
           </Right>
         </>
       ) : null}
@@ -98,26 +99,15 @@ const Left = styled.div`
 const Right = styled.div`
   width: 50%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  //   background-color: white;
+  // background-color: white;
 `;
-
-const TAndW = styled.div`
+const RightContents = styled.div`
+  width: 90%;
   display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: center;
+  // background-color: blue;
 `;
-
-const Tall = styled.p``;
-
-const Weight = styled.p``;
-
-const Explanation = styled.div``;
-
-const AudioBox = styled.div`
-  background-color: white;
-  width: 100px;
-  height: 100px;
-`;
-
-const AudioButton = styled.audio``;
