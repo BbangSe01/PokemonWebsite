@@ -1,44 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PokeCard from "../PokeCard/PokeCard";
 import location from "../../assets/Images/location.png";
+import { useQuery } from "@tanstack/react-query";
 import instance from "../../apis/axios-instance";
 
+const getG2PokeData = async () => {
+  const requests = Array.from({ length: 100 }, (_, i) =>
+    instance.get(`/pokemon/${i + 152}`).then((res) => res.data)
+  );
+  // Promise.all을 이용해 여러개의 비동기 작업을 한번에 처리
+  // promise란 비동기 처리의 완료 여부를 나타내는 객체
+  return Promise.all(requests);
+};
+
+const getG2PokeNames = async () => {
+  const requests = Array.from({ length: 100 }, (_, i) =>
+    instance
+      .get(`/pokemon-species/${i + 152}`)
+      .then((res) => res.data.names[2].name)
+  );
+  return Promise.all(requests);
+};
+
 const Generation2 = () => {
-  const [G2Array, setG2] = useState([]);
-  const [G2Names, setG2Names] = useState([]);
-  const G2Num = new Array(100); // 관동지방 도감번호는 151번까지
+  const {
+    data: G2Array,
+    isLoading: isLoadingData,
+    error: errorData,
+  } = useQuery({
+    queryKey: ["g2", "pokemon"],
+    queryFn: getG2PokeData,
+  });
+  const {
+    data: G2Name,
+    isLoading: isLoadingName,
+    error: errorName,
+  } = useQuery({
+    queryKey: ["g2", "pokename"],
+    queryFn: getG2PokeNames,
+  });
 
-  const getPokeData = async () => {
-    setG2([]);
-    for (let i = 152; i < 152 + G2Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon/${i}`);
-        const data = response.data; // 여기서 response.data가 실제 데이터
-        setG2((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  const getPokeNames = async () => {
-    setG2Names([]);
-    for (let i = 152; i <= 152 + G2Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon-species/${i}`);
-        const data = response.data.names[2].name;
-        setG2Names((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getPokeData();
-    getPokeNames();
-  }, []);
+  if (isLoadingData || isLoadingName) return <p>로딩중!!!!1</p>;
+  if (errorData || errorName) return <p>에러!!!!</p>;
 
   return (
     <Screen>
@@ -47,7 +51,7 @@ const Generation2 = () => {
         <GTitle>성도지방</GTitle>
       </GTitleLine>
       <PokeArea>
-        <PokeCard GArray={G2Array} Names={G2Names} />
+        <PokeCard GArray={G2Array} Names={G2Name} />
       </PokeArea>
     </Screen>
   );

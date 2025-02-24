@@ -1,44 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PokeCard from "../PokeCard/PokeCard";
 import location from "../../assets/Images/location.png";
+import { useQuery } from "@tanstack/react-query";
 import instance from "../../apis/axios-instance";
 
+const getG1PokeData = async () => {
+  const requests = Array.from({ length: 151 }, (_, i) =>
+    instance.get(`/pokemon/${i + 1}`).then((res) => res.data)
+  );
+  // Promise.all을 이용해 여러개의 비동기 작업을 한번에 처리
+  // promise란 비동기 처리의 완료 여부를 나타내는 객체
+  return Promise.all(requests);
+};
+
+const getG1PokeNames = async () => {
+  const requests = Array.from({ length: 151 }, (_, i) =>
+    instance
+      .get(`/pokemon-species/${i + 1}`)
+      .then((res) => res.data.names[2].name)
+  );
+  return Promise.all(requests);
+};
+
 const Generation1 = () => {
-  const [G1Array, setG1] = useState([]);
-  const [G1Names, setG1Names] = useState([]);
-  const G1Num = new Array(151); // 관동지방 도감번호는 151번까지
+  const {
+    data: G1Array,
+    isLoading: isLoadingData,
+    error: errorData,
+  } = useQuery({
+    queryKey: ["g1", "pokemon"],
+    queryFn: getG1PokeData,
+  });
+  const {
+    data: G1Name,
+    isLoading: isLoadingName,
+    error: errorName,
+  } = useQuery({
+    queryKey: ["g1", "pokename"],
+    queryFn: getG1PokeNames,
+  });
 
-  const getPokeData = async () => {
-    setG1([]);
-    for (let i = 1; i <= G1Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon/${i}`);
-        const data = response.data; // 여기서 response.data가 실제 데이터
-        setG1((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  const getPokeNames = async () => {
-    setG1Names([]);
-    for (let i = 1; i <= G1Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon-species/${i}`);
-        const data = response.data.names[2].name;
-        setG1Names((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getPokeData();
-    getPokeNames();
-  }, []);
+  if (isLoadingData || isLoadingName) return <p>로딩중!!!!1</p>;
+  if (errorData || errorName) return <p>에러!!!!</p>;
 
   return (
     <Screen>
@@ -47,7 +51,7 @@ const Generation1 = () => {
         <GTitle>관동지방</GTitle>
       </GTitleLine>
       <PokeArea>
-        <PokeCard GArray={G1Array} Names={G1Names} />
+        <PokeCard GArray={G1Array} Names={G1Name} />
       </PokeArea>
     </Screen>
   );

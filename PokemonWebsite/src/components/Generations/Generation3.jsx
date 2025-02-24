@@ -1,53 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PokeCard from "../PokeCard/PokeCard";
 import location from "../../assets/Images/location.png";
+import { useQuery } from "@tanstack/react-query";
 import instance from "../../apis/axios-instance";
 
+const getG3PokeData = async () => {
+  const requests = Array.from({ length: 135 }, (_, i) =>
+    instance.get(`/pokemon/${i + 252}`).then((res) => res.data)
+  );
+  // Promise.all을 이용해 여러개의 비동기 작업을 한번에 처리
+  // promise란 비동기 처리의 완료 여부를 나타내는 객체
+  return Promise.all(requests);
+};
+
+const getG3PokeNames = async () => {
+  const requests = Array.from({ length: 135 }, (_, i) =>
+    instance
+      .get(`/pokemon-species/${i + 252}`)
+      .then((res) => res.data.names[2].name)
+  );
+  return Promise.all(requests);
+};
+
 const Generation3 = () => {
-  const [G3Array, setG3] = useState([]);
-  const [G3Names, setG3Names] = useState([]);
-  const G3Num = new Array(135); // 관동지방 도감번호는 151번까지
+  const {
+    data: G3Array,
+    isLoading: isLoadingData,
+    error: errorData,
+  } = useQuery({
+    queryKey: ["g3", "pokemon"],
+    queryFn: getG3PokeData,
+  });
+  const {
+    data: G3Name,
+    isLoading: isLoadingName,
+    error: errorName,
+  } = useQuery({
+    queryKey: ["g3", "pokename"],
+    queryFn: getG3PokeNames,
+  });
 
-  const getPokeData = async () => {
-    setG3([]);
-    for (let i = 252; i < 252 + G3Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon/${i}`);
-        const data = response.data; // 여기서 response.data가 실제 데이터
-        setG3((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  const getPokeNames = async () => {
-    setG3Names([]);
-    for (let i = 252; i <= 252 + G3Num.length; i++) {
-      try {
-        const response = await instance.get(`/pokemon-species/${i}`);
-        const data = response.data.names[2].name;
-        setG3Names((prev) => [...prev, data]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getPokeData();
-    getPokeNames();
-  }, []);
-
+  if (isLoadingData || isLoadingName) return <p>로딩중!!!!1</p>;
+  if (errorData || errorName) return <p>에러!!!!</p>;
   return (
     <Screen>
       <GTitleLine>
         <GLocation src={location} />
-        <GTitle>성도지방</GTitle>
+        <GTitle>호연지방</GTitle>
       </GTitleLine>
       <PokeArea>
-        <PokeCard GArray={G3Array} Names={G3Names} />
+        <PokeCard GArray={G3Array} Names={G3Name} />
       </PokeArea>
     </Screen>
   );
