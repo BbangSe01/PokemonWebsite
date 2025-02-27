@@ -73,7 +73,7 @@ const EachMap = styled.div`
 
 const MapTitle = styled.h3`
   font-family: "maple";
-  font-size: 20px;
+  font-size: 30px;
 `;
 
 const MapImage = styled.img`
@@ -84,10 +84,10 @@ const MapImage = styled.img`
 `;
 
 const Monsterball = styled.img`
-  padding-top: 25px;
-  margin-right: 7px;
-  width: 20px;
-  height: 20px;
+  padding-top: 33px;
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
 `;
 
 const MapName = styled.div`

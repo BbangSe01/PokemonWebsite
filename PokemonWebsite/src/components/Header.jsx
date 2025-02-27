@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import TitleIcon from "../assets/Images/TitleIcon.png";
 import Navb1 from "../assets/Images/Navb1.png";
 import Navb2 from "../assets/Images/Navb2.png";
-import Navb3 from "../assets/Images/Navb3.png";
 const HeaderComp = () => {
   return (
     <Header>
@@ -20,11 +19,7 @@ const HeaderComp = () => {
         </StyledLink>
         <StyledLink to="/Temp1">
           <NavImo src={Navb2} />
-          <NavTitle>컨텐츠 1</NavTitle>
-        </StyledLink>
-        <StyledLink to="/Temp2">
-          <NavImo src={Navb3} />
-          <NavTitle>컨텐츠 2</NavTitle>
+          <NavTitle>포켓몬 무비</NavTitle>
         </StyledLink>
       </Navbar>
     </Header>
@@ -63,15 +58,13 @@ const Pikachu = styled.img`
 
 const Navbar = styled.div`
   margin-left: 25%;
-  height: 100%;
+  height: 70px;
   display: flex;
-  align-items: end;
 `;
 
 const NavTitle = styled.p`
   font-family: "maple";
-  font-size: 15px;
-  // font-color: black;
+  font-size: 20px;
   margin-right: 25px;
 `;
 
@@ -82,11 +75,12 @@ const StyledLink = styled(Link)`
   font-family: "pokemonwrite";
   font-size: 15px;
   color: black;
+  margin-top: 20px;
 `;
 
 const NavImo = styled.img`
   width: 25px;
   height: 25px;
-  padding-top: 15px;
+  padding-top: 22px;
   margin-right: 3px;
 `;
