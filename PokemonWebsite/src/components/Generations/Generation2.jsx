@@ -4,7 +4,7 @@ import PokeCard from "../PokeCard/PokeCard";
 import location from "../../assets/Images/location.png";
 import { useQuery } from "@tanstack/react-query";
 import instance from "../../apis/axios-instance";
-
+import Loading from "../LoadingAndError/Loading";
 const getG2PokeData = async () => {
   const requests = Array.from({ length: 100 }, (_, i) =>
     instance.get(`/pokemon/${i + 152}`).then((res) => res.data)
@@ -41,7 +41,7 @@ const Generation2 = () => {
     queryFn: getG2PokeNames,
   });
 
-  if (isLoadingData || isLoadingName) return <p>로딩중!!!!1</p>;
+  if (isLoadingData || isLoadingName) return <Loading />;
   if (errorData || errorName) return <p>에러!!!!</p>;
 
   return (
