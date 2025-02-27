@@ -10,6 +10,8 @@ import TallAndWeight from "./Right/TallAndWeight";
 import Explain from "./Right/Explain";
 import StatBox from "./Right/StatBox";
 import CryingSound from "./Right/CryingSound";
+import LoadingDetail from "../LoadingAndError/LoadingDetail";
+import Error from "../LoadingAndError/Error";
 const DetailPage = () => {
   const location = useLocation();
   const Lodata = location.state;
@@ -18,13 +20,15 @@ const DetailPage = () => {
   const [DetailData, setDetailData] = useState(null);
   const [explaination, setEx] = useState(null);
   const [stats, setStats] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const getSpecies = async () => {
     try {
       const response = await instance.get(`/pokemon-species/${Lodata.data.id}`);
       const data = response.data;
       setSpecies(data);
     } catch (error) {
+      setIsError(true);
       console.error("Error fetching data:", error);
     }
   };
@@ -40,8 +44,6 @@ const DetailPage = () => {
       setStats(DetailData.data.stats);
     }
   }, [DetailData]);
-  console.log(species);
-  // console.log(stats);
 
   useEffect(() => {
     if (species && species.flavor_text_entries) {
@@ -52,12 +54,16 @@ const DetailPage = () => {
     }
   }, [species]);
 
-  console.log(explaination);
-  // 키/무게 , 도감 설명, 종족값, 울음소리
+  useEffect(() => {
+    DetailData && species && explaination && stats ? setIsLoading(false) : null;
+  }, [DetailData, species, explaination, stats]);
+
   return (
-    <DetailArea>
-      {DetailData && species && explaination && stats ? (
-        <>
+    <>
+      {isError ? (
+        <Error />
+      ) : !isLoading ? (
+        <DetailArea>
           <Left>
             <PokeIntro DetailData={DetailData} species={species} />
             <DoubleImg DetailData={DetailData} />
@@ -70,9 +76,11 @@ const DetailPage = () => {
               <CryingSound DetailData={DetailData} />
             </RightContents>
           </Right>
-        </>
-      ) : null}
-    </DetailArea>
+        </DetailArea>
+      ) : (
+        <LoadingDetail />
+      )}
+    </>
   );
 };
 
