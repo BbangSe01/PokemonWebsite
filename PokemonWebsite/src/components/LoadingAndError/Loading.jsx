@@ -4,7 +4,7 @@ import Ev from "../../assets/Images/free-icon-game-14079448.png";
 
 const bounceInTop = keyframes`
   0% {
-    transform: translateY(-250px);
+    transform: translateY(-100px);
     animation-timing-function: ease-in;
     opacity: 0;
   }

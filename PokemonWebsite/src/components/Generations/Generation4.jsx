@@ -5,6 +5,7 @@ import location from "../../assets/Images/location.png";
 import { useQuery } from "@tanstack/react-query";
 import instance from "../../apis/axios-instance";
 import Loading from "../LoadingAndError/Loading";
+import Error from "../LoadingAndError/Error";
 const getG4PokeData = async () => {
   const requests = Array.from({ length: 107 }, (_, i) =>
     instance.get(`/pokemon/${i + 387}`).then((res) => res.data)
@@ -42,7 +43,7 @@ const Generation4 = () => {
   });
 
   if (isLoadingData || isLoadingName) return <Loading />;
-  if (errorData || errorName) return <p>에러!!!!</p>;
+  if (errorData || errorName) return <Error />;
 
   return (
     <Screen>
