@@ -17,7 +17,7 @@ const HeaderComp = () => {
           <NavImo src={Navb1} />
           <NavTitle>지방 별 포켓몬</NavTitle>
         </StyledLink>
-        <StyledLink to="/Temp1">
+        <StyledLink to="/PokeMovie">
           <NavImo src={Navb2} />
           <NavTitle>포켓몬 무비</NavTitle>
         </StyledLink>
