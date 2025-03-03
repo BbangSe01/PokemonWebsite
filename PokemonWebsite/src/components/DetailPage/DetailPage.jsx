@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import instance from "../../apis/axios-instance";
+import instance from "../../apis/instance/axios-instance";
 import "../../styles/font.css";
 import pokeBackground from "../../assets/Images/pokeBackground.jpg";
 import PokeIntro from "./Left/PokeIntro";

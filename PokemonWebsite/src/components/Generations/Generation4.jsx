@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PokeCard from "../PokeCard/PokeCard";
 import location from "../../assets/Images/location.png";
 import { useQuery } from "@tanstack/react-query";
-import instance from "../../apis/axios-instance";
+import instance from "../../apis/instance/axios-instance";
 import Loading from "../LoadingAndError/Loading";
 import Error from "../LoadingAndError/Error";
 const getG4PokeData = async () => {

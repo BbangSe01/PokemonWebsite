@@ -1,17 +1,10 @@
 import React from "react";
-import movieInstance from "../apis/movie-instance";
+import getPokeMovies from "../apis/getPokeMovies";
+import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
-
-const getPokeMovies = async () => {
-  const keyWord = "포켓몬스터";
-  const url = `/search/movie?query=${keyWord}&include_adult=false&language=ko&page=1`;
-  try {
-    const response = await movieInstance.get(url).then((res) => res.data);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import MovieList from "./MoviePage/MovieList";
+import Loading from "./LoadingAndError/Loading";
+import Error from "./LoadingAndError/Error";
 
 const PokeMovie = () => {
   const {
@@ -22,12 +15,29 @@ const PokeMovie = () => {
     queryKey: ["pokeMovieData"],
     queryFn: getPokeMovies,
   });
-  console.log(movies);
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
+
   return (
-    <div>
-      <p>임시 페이지 1</p>
-    </div>
+    <Screen>
+      <Title>영화 리스트</Title>
+      {movies ? <MovieList movies={movies} /> : null}
+    </Screen>
   );
 };
 
 export default PokeMovie;
+
+const Screen = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Title = styled.p`
+  font-size: 50px;
+  font-family: "maple";
+  margin-bottom: 70px;
+`;
