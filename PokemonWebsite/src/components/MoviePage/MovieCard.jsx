@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const MovieCard = (arr) => {
   const imageUrl = `https://image.tmdb.org/t/p/w500${arr.arr.poster_path}`;
+  const navigate = useNavigate();
 
-  console.log(arr.arr);
+  const toMovieDetail = (id) => {
+    navigate(`/pokeMovie/${id}`, {
+      state: {
+        movieId: id,
+      },
+    });
+  };
   return (
-    <Card>
+    <Card onClick={() => toMovieDetail(arr.arr.id)}>
       <Poster src={imageUrl} alt={arr.arr.title} />
       <Name>{arr.arr.title}</Name>
     </Card>
