@@ -26,7 +26,8 @@ const Card = styled.div`
   width: 250px;
   height: 300px;
   //   background-color: black;
-  margin-right: 90px;
+  margin-left: 30px;
+  margin-right: 30px;
   margin-bottom: 60px;
   cursor: pointer;
   display: flex;
