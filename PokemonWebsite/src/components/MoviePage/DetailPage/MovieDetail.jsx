@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import getDetailMovies from "../../../apis/getDetailMovies";
-import Loading from "../../LoadingAndError/Loading";
+import MovieLoading from "../../LoadingAndError/MovieLoading";
 import Error from "../../LoadingAndError/Error";
 
 const rotateCenter = keyframes`
@@ -32,7 +32,7 @@ const MovieDetail = () => {
   console.log(movieData);
   const imageUrl = `https://image.tmdb.org/t/p/w500${movieData?.poster_path}`;
   if (error) return <Error />;
-  if (isLoading) return <Loading />;
+  if (isLoading) return <MovieLoading />;
 
   // 제목, 개봉일, 상영시간, 평점, overview
   return (
@@ -77,6 +77,8 @@ const Right = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: ${rotateCenter} 1s ease-in-out both;
+  animation-delay: 0.5s;
 `;
 const Title = styled.p`
   width: 80%;
@@ -112,8 +114,6 @@ const Overview = styled.div`
   border-radius: 20px;
   color: white;
   width: 90%;
-  animation: ${rotateCenter} 1s ease-in-out both;
-  animation-delay: 0.5s;
 `;
 
 const OverviewTitle = styled.p`

@@ -5,7 +5,7 @@ import { fetchMovie } from "../stores/movieSlice";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import MovieList from "./MoviePage/MovieList";
-import Loading from "./LoadingAndError/Loading";
+import MovieLoading from "./LoadingAndError/MovieLoading";
 import Error from "./LoadingAndError/Error";
 import img1 from "../assets/Images/free-icon-action-188953.png";
 const PokeMovie = () => {
@@ -19,7 +19,7 @@ const PokeMovie = () => {
     }
   }, [dispatch, status]);
 
-  if (status === "Loading") return <Loading />;
+  if (status === "Loading") return <MovieLoading />;
   if (status === "Error") return <Error />;
 
   return (
