@@ -6,3 +6,7 @@
     font-family: 'maple';
     src: url('../assets/fonts/MaplestoryBold.ttf') format('truetype');
   }
+@font-face {
+  font-family: 'nanum';
+  src: url('../assets//fonts/NanumHumanBold.ttf') format('truetype');
+}
